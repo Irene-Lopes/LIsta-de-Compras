@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Lista de Compras</title>
+</head>
+<body>
+    <h1>Lista de Compras</h1> 
+    <form> 
+        <p>Produto: <input type="text" id="inProduto" required autofocus></p> 
+        <p>Quantidade: <input type="number" id="inQuantidade" required></p>     
+        <p>Preço Unitário: <input type="number" id="inPreco" step="0.01" required></p>
+        <input type="submit" value="Adicionar">      
+    </form> 
+  
+    <p><strong>Lista de Produtos</strong></p> 
+    <pre id="listaProdutos"></pre> 
+  
+    <script>
+        const frm = document.querySelector("form"); 
+        const resp = document.querySelector("#listaProdutos");
+
+        const lista = [];
+        let totalCompra = 0; 
+
+        frm.addEventListener("submit", (e) => {
+            e.preventDefault();  
+
+            const nome = frm.inProduto.value;  
+            const qt = Number(frm.inQuantidade.value); 
+            const preco = Number(frm.inPreco.value);  
+            const subtotal = qt * preco; 
+            totalCompra += subtotal; 
+
+            lista.push(`${nome} ------- ${qt} ------- R$${preco.toFixed(2)} (Subtotal: R$${subtotal.toFixed(2)})`);
+
+            let compras = "";  
+            for (let i = 0; i < lista.length; i++) {
+                compras += `${i + 1}. ${lista[i]}\n`; 
+            }
+
+            compras += `\nValor Total: R$${totalCompra.toFixed(2)}`;
+            resp.innerText = compras;  
+
+            frm.inProduto.value = "";  
+            frm.inQuantidade.value = "";  
+            frm.inPreco.value = "";  
+            frm.inProduto.focus();  
+        });
+    </script> 
+</body> 
+</html>
+
